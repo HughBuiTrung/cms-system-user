@@ -11,7 +11,7 @@ app.use(express.static('public'));
 
 // connect to DB
 mongoose
-  .connect('xx', {
+  .connect('xxx', {
     useNewUrlParser: true,
   })
   .catch((error) => console.log("Connect Fail: ", error));
