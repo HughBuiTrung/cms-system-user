@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 // routes
-const todosRoutes = require("./routes/todos");
+const todosRoutes = require("./routes/users");
 
 dotenv.config();
 app.use(cors());
@@ -20,10 +20,10 @@ mongoose
 
 // get
 app.use(express.json({ extend: true }));
-app.get("/", (_, res) => res.send("API running..."));
+app.get("/", (_, res) => res.send("API user running..."));
 
 // routes
-app.use("/api/todo", todosRoutes);
+app.use("/api/user", todosRoutes);
 
 // listen apps
 const PORT = process.env.PORT || 4002;

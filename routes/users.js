@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 // model
-const Todo = require("../models/Todo");
+const User = require("../models/User");
 
 /*
 GET LIST: /api/todo
@@ -13,13 +13,13 @@ DELETE (delete todo): /api/todo/62c0ffa49d9b0c1167337548
 
 // GET LIST
 router.get("/", async (req, res) => {
-  console.log("GET LIST", req.query);
+  console.log("GET USER", req.query);
 
   try {
-    const todos = await Todo.find();
+    const users = await User.find();
     res.status(200).json({
-      data: todos,
-      msg: "Get todo success",
+      data: users,
+      msg: "Get user success",
       isSuccess: true,
     });
   } catch (err) {
@@ -36,12 +36,12 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    const todo = await Todo.findById(id);
+    const user = await User.findById(id);
 
     // return success
     res.status(200).json({
-      data: todo,
-      msg: "Get item success",
+      data: user,
+      msg: "Get user success",
       isSuccess: true,
     });
   } catch (err) {
@@ -57,20 +57,20 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   // req = request body -> client send
   // res = response body -> server return
-  const todoItem = new Todo({
-    title: req.body.title,
-    description: req.body.description,
-    member: req.body.member,
-    status: "new",
+  const todoItem = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password,
   });
 
   try {
-    const todo = await todoItem.save();
+    const user = await todoItem.save();
 
     // return success
     res.status(200).json({
-      data: todo,
-      msg: "Create todo success",
+      data: user,
+      msg: "Create user success",
       isSuccess: true,
     });
   } catch (err) {
@@ -87,20 +87,20 @@ router.put("/:id", async (req, res) => {
   const id = req.params.id;
 
   const field = {};
-  if (req.body.title) field.title = req.body.title;
-  if (req.body.description) field.description = req.body.description;
-  if (req.body.member) field.member = req.body.member;
-  if (req.body.status) field.status = req.body.status;
+  if (req.body.firstName) field.firstName = req.body.firstName;
+  if (req.body.lastName) field.lastName = req.body.lastName;
+  if (req.body.email) field.email = req.body.email;
+  if (req.body.password) field.password = req.body.password;
 
   try {
-    const item = await Todo.findOneAndUpdate(
+    const item = await User.findOneAndUpdate(
       { _id: id },
       { $set: field },
       { new: true }
     );
     if (!item) {
       res.status(404).json({
-        msg: "Item not found",
+        msg: "user not found",
         isSuccess: false,
       });
       return;
@@ -123,7 +123,7 @@ router.delete("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    const item = await Todo.findOneAndRemove({ _id: id });
+    const item = await User.findOneAndRemove({ _id: id });
     if (!item) {
       res.status(404).json({
         msg: "Item not found",
